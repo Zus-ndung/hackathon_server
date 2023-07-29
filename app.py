@@ -8,8 +8,11 @@ from sentence_transformers import SentenceTransformer
 
 from flask import Flask
 from flask import request
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 
 def data_embedding_transformer(text):
