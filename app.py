@@ -9,6 +9,7 @@ from sentence_transformers import SentenceTransformer
 from flask import Flask
 from flask import request
 from flask_cors import CORS
+import json
 
 
 app = Flask(__name__)
@@ -112,11 +113,14 @@ DF['embedding'] = DF['text'].apply(lambda x: data_embedding_transformer(x))
 @app.route('/ask', methods=['POST'])
 def ask_api():
     text = request.get_json().get("text")
-    return ask(query=text, df=DF, model=GPT_MODEL)
+    answer = ask(query=text, df=DF, model=GPT_MODEL)
+    return json.dumps({"generated_text": answer})
 
 @app.route('/', methods=['GET'])
 def get():
-    return "success"
+    text = "success"
+    return json.dumps({"status": text})
+
 
 
 if __name__ == '__main__':
