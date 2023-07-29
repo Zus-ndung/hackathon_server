@@ -111,6 +111,10 @@ def ask_api():
     text = request.get_json().get("text")
     return ask(query=text, df=DF, model=GPT_MODEL)
 
+@app.route('/', methods=['GET'])
+def get():
+    return "success"
+
 
 if __name__ == '__main__':
     app.run(debug=False, port=3000)
