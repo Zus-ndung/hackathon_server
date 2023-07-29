@@ -99,7 +99,7 @@ def ask(
 EMBEDDING_MODEL = "text-embedding-ada-002"
 GPT_MODEL = "gpt-3.5-turbo"
 
-openai.api_key = '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'
+openai.api_key = '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'
 embeddings_path = r"data_embedding.csv"
 
 DF = pd.read_csv(embeddings_path)
