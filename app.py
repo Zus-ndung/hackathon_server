@@ -102,8 +102,8 @@ GPT_MODEL = "gpt-3.5-turbo"
 openai.api_key = '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'
 embeddings_path = r"data_embedding.csv"
 
-DF = pd.read_csv(embeddings_path)
-DF['embedding'] = DF['text'].apply(lambda x: data_embedding_transformer(x))
+# DF = pd.read_csv(embeddings_path)
+# DF['embedding'] = DF['text'].apply(lambda x: data_embedding_transformer(x))
 
 
 @app.route('/ask', methods=['POST'])
