@@ -11,6 +11,7 @@ from flask import request
 from flask_cors import CORS
 import json
 
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -84,26 +85,13 @@ def ask(
 ) -> str:
     """Answers a query using GPT and a dataframe of relevant texts and embeddings."""
     message = query_message(query, df, model=model, token_budget=token_budget)
-    if print_message:
-        print(message)
-    messages = [
-        {"role": "system", "content": "You answer questions about Solana"},
-        {"role": "user", "content": message},
-    ]
-    # print(messages)
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=messages,
-        temperature=0
-    )
-    response_message = response["choices"][0]["message"]["content"]
-    return response_message
+    return message
 
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
 GPT_MODEL = "gpt-3.5-turbo"
 
-openai.api_key = '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'
+openai.api_key = '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'
 embeddings_path = r"data_embedding.csv"
 
 DF = pd.read_csv(embeddings_path)
@@ -113,6 +101,7 @@ DF['embedding'] = DF['text'].apply(lambda x: data_embedding_transformer(x))
 @app.route('/ask', methods=['POST'])
 def ask_api():
     text = request.get_json().get("text")
+    app.logger.info(text)
     answer = ask(query=text, df=DF, model=GPT_MODEL)
     return json.dumps({"generated_text": answer})
 
@@ -124,4 +113,4 @@ def get():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80, host="0.0.0.0")
+    app.run(debug=False, port=80, host="0.0.0.0")
